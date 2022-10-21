@@ -1,0 +1,64 @@
+﻿@model ItemCategory
+
+@{
+    if(Model.ItemCategoryId == 0 )
+    {
+        ViewData["Title"] = "Add Item Category";
+    }
+    else{
+        ViewData["Title"] = "Edit Item Category";
+    }
+}
+
+<div class="container shadow p-5">
+    <div class="row pb-2">
+        @if (Model.ItemCategoryId == 0)
+        {
+            <h2>Add Item Category</h2>
+        }
+        else
+        {
+            <h2>Edit Item Category</h2>
+        }
+    </div>
+
+    <form id="employeeformid" method="post">
+        <div asp-validation-summary="All"></div>
+        @*<a asp-route-id="@Model.ItemCategoryId" hidden/>*@
+        <input asp-for="ItemCategoryId" hidden/>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ItemCategoryName">Item Category Name</label> <span>*</span>
+                @if (Model.ItemCategoryId == 0)
+                {
+                    <input type="text" id="ItemCategoryName" class="form-control mb-3" asp-for="ItemCategoryName" placeholder="Enter Item Category Name">
+                }
+                else 
+                {
+                    <input type="text" id="ItemCategoryName" class="form-control mb-3" asp-for="ItemCategoryName" placeholder="Enter Item Category Name" value="@Model.ItemCategoryName">
+                }
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ItemDescription">Item Category Description</label> <span>*</span>
+                @if (Model.ItemCategoryId == 0)
+                {
+                    <input type="text" id="ItemDescription" class="form-control mb-3" asp-for="ItemDescription" placeholder="Enter Item Category Description">
+                }
+                else 
+                {
+                    <input type="text" id="ItemDescription" class="form-control mb-3" asp-for="ItemDescription" placeholder="Enter Item Category Description" value="@Model.ItemDescription">
+                }
+            </div>
+        </div>
+        @if (Model.ItemCategoryId == 0)
+        {
+            <a asp-controller="ItemCategory" asp-action="SaveItemCategory" title="Save" class="btn btn-lg btn-primary p-2"> <i class="bi bi-pencil-square"></i> Save </a>
+        }
+        else 
+        {
+            <a asp-controller="ItemCategory" asp-action="UpdateItemCategory" title="Update" class="btn btn-lg btn-primary p-2"> <i class="bi bi-pencil-square"></i> Update </a>
+        }
+        <a asp-controller="ItemCategory" asp-action="Index" class="btn btn-lg btn-warning p-2 btnback"><i class="bi bi-pencil-square"></i> Back </a>
+    </form>
+
+</div>
