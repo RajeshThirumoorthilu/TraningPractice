@@ -91,7 +91,8 @@ namespace Service.Repository
                 }
                 itemcat.ItemDescription = itemcat.ItemDescription;
                 itemcat.ItemCategoryName = itemCatergory.ItemCategoryName;
-
+                itemcat.CreatedOn = itemCatergory.CreatedOn;
+                _context.itemCatergories.Update(itemcat);
                 var res = _context.SaveChanges();
                 if (res == 0)
                 {
@@ -136,7 +137,7 @@ namespace Service.Repository
                     itemCategoryResponseModel.Message = "Record Deletion Failed";
                     return itemCategoryResponseModel;
                 }
-                itemCategoryResponseModel.StatusCode = HttpStatusCode.BadRequest;
+                itemCategoryResponseModel.StatusCode = HttpStatusCode.OK;
                 itemCategoryResponseModel.Message = "Record Deleted Successfully";
                 return itemCategoryResponseModel;
             }

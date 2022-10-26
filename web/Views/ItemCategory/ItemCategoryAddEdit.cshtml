@@ -52,11 +52,11 @@
         </div>
         @if (Model.ItemCategoryId == 0)
         {
-            <a asp-controller="ItemCategory" asp-action="SaveItemCategory" title="Save" class="btn btn-lg btn-primary p-2"> <i class="bi bi-pencil-square"></i> Save </a>
+            <button asp-action="SaveItemCategory" asp-controller="ItemCategory" title="Save" class="btn btn-lg btn-primary p-2 bi bi-pencil-square" name="Save" >Save</button>
         }
         else 
         {
-            <a asp-controller="ItemCategory" asp-action="UpdateItemCategory" title="Update" class="btn btn-lg btn-primary p-2"> <i class="bi bi-pencil-square"></i> Update </a>
+            <button asp-action="UpdateItemCategory" asp-controller="ItemCategory" title="Update" class="btn btn-lg btn-primary p-2 bi bi-pencil-square" name="Update">Update</button>
         }
         <a asp-controller="ItemCategory" asp-action="Index" class="btn btn-lg btn-warning p-2 btnback"><i class="bi bi-pencil-square"></i> Back </a>
     </form>

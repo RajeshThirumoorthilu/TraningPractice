@@ -1,0 +1,30 @@
+﻿@model ItemCategory
+
+@{
+    ViewData["Title"] = "Delete Item Category";
+}
+
+<div class="container shadow p-5">
+    <div class="row pb-2">
+        <h2>Delete Item Category</h2>
+    </div>
+
+    <form id="employeeformid" method="post">
+        <div asp-validation-summary="All"></div>
+        @*<a asp-route-id="@Model.ItemCategoryId" hidden/>*@
+        <input asp-for="ItemCategoryId" hidden />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ItemCategoryName">Item Category Name</label> <span>*</span>
+                <input type="text" id="ItemCategoryName" class="form-control mb-3" asp-for="ItemCategoryName" placeholder="Enter Item Category Name" value="@Model.ItemCategoryName" disabled>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ItemDescription">Item Category Description</label> <span>*</span>
+                <input type="text" id="ItemDescription" class="form-control mb-3" asp-for="ItemDescription" placeholder="Enter Item Category Description" value="@Model.ItemDescription" disabled>
+            </div>
+        </div>
+        <button asp-action="DeleteItemCategory" asp-route-id="@Model.ItemCategoryId" asp-controller="ItemCategory" title="Delete" class="btn btn-lg btn-primary p-2 bi bi-pencil-square" name="Delete">Delete</button>
+        <a asp-controller="ItemCategory" asp-action="Index" class="btn btn-lg btn-warning p-2 btnback"><i class="bi bi-pencil-square"></i> Back </a>
+    </form>
+
+</div>

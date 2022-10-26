@@ -101,7 +101,7 @@ namespace Service.Controllers
             }
         }
         /// To delete data in item category
-        [HttpPut]
+        [HttpDelete]
         [Route("DeleteItemCategory")]
         public ItemCategoryResponseModel DeleteItemCategory(int id)
         {

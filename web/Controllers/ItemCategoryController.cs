@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 using System.Text;
 using web.Common;
 using web.Models;
@@ -26,7 +27,7 @@ namespace web.Controllers
 
         public IActionResult Add()
         {
-            return View("ItemCategoeyAddEdit", new ItemCategory());
+            return View("ItemCategoryAddEdit", new ItemCategory());
         }
 
         public IActionResult Edit(int id)
@@ -34,19 +35,35 @@ namespace web.Controllers
             ItemCategory ItemCatergory = new ItemCategory();
             var response = _clientCall.GetAsync(_baseUrl + "GetItemCategoryById?id="+id);
             ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response.Content.ReadAsStringAsync().Result);
-            return View("ItemCategoeyAddEdit", ItemCatergory);
+            return View("ItemCategoryAddEdit", ItemCatergory);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SaveItemCategory([FromBody] ItemCategory itemCategory)
+        public IActionResult Delete(int id)
+        {
+            ItemCategory ItemCatergory = new ItemCategory();
+            var response = _clientCall.GetAsync(_baseUrl + "GetItemCategoryById?id=" + id);
+            ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response.Content.ReadAsStringAsync().Result);
+            return View("ItemCategoryDelete", ItemCatergory);
+        }
+
+        public IActionResult SaveItemCategory(ItemCategory itemCategory)
         {
             StringContent requestContent;
             var modifiedAssetJSON = JsonConvert.SerializeObject(itemCategory);
             requestContent = new StringContent(modifiedAssetJSON, Encoding.UTF8, "application/json");
             var response = _clientCall.PostAsync(_baseUrl+ "InsertItemCategory", requestContent);
-            var result = response.Content.ReadAsStringAsync().Result;
-            TempData["error"] = "Failed";
-            TempData["success"] = "success";
+            var ItemCategoryResponseModel = JsonConvert.DeserializeObject< ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
+            if (ItemCategoryResponseModel != null)
+            {
+                if (ItemCategoryResponseModel.StatusCode == HttpStatusCode.OK)
+                {
+                    TempData["success"] = ItemCategoryResponseModel.Message;
+                }
+                else
+                {
+                    TempData["error"] = ItemCategoryResponseModel.Message;
+                    return View("ItemCategoryAddEdit", itemCategory);
+                }
+            }
             return RedirectToAction("Index", "ItemCategory");
         }
         public IActionResult UpdateItemCategory(ItemCategory itemCategory)
@@ -55,10 +72,42 @@ namespace web.Controllers
             var modifiedAssetJSON = JsonConvert.SerializeObject(itemCategory);
             requestContent = new StringContent(modifiedAssetJSON, Encoding.UTF8, "application/json");
             var response = _clientCall.PutAsync(_baseUrl+ "UpdateItemCategory", requestContent);
-            var result = response.Content.ReadAsStringAsync().Result;
-            TempData["error"] = "Failed";
-            TempData["success"] = "success";
+            var ItemCategoryResponseModel = JsonConvert.DeserializeObject<ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
+
+            if (ItemCategoryResponseModel != null)
+            {
+                if (ItemCategoryResponseModel.StatusCode == HttpStatusCode.OK)
+                {
+                    TempData["success"] = ItemCategoryResponseModel.Message;
+                }
+                else
+                {
+                    TempData["error"] = ItemCategoryResponseModel.Message;
+                    return View("ItemCategoryAddEdit", itemCategory);
+                }
+            }
             return RedirectToAction("Index", "ItemCategory");
         }
+
+        public IActionResult DeleteItemCategory(int id)
+        {
+            var response = _clientCall.DeleteAsync(_baseUrl + "DeleteItemCategory?id="+id);
+            var ItemCategoryResponseModel = JsonConvert.DeserializeObject<ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
+
+            if (ItemCategoryResponseModel != null)
+            {
+                if (ItemCategoryResponseModel.StatusCode == HttpStatusCode.OK)
+                {
+                    TempData["success"] = ItemCategoryResponseModel.Message;
+                }
+                else
+                {
+                    TempData["error"] = ItemCategoryResponseModel.Message;
+                    return RedirectToAction("Delete", id);
+                }
+            }
+            return RedirectToAction("Index", "ItemCategory");
+        }
+        
     }
 }
