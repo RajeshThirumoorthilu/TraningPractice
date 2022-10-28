@@ -11,6 +11,7 @@ namespace Service.Common
         //}
         public DatabaseContext(DbContextOptions options) : base(options) { }
         public virtual DbSet<ItemCatergory> itemCatergories{get;set;}
+        public virtual DbSet<Item> items{get;set;}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
