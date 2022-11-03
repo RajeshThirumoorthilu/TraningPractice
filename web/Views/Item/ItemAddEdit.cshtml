@@ -1,0 +1,83 @@
+﻿@model Item
+
+@{
+    if (Model.ItemId == 0)
+    {
+        ViewData["Title"] = "Add Item";
+    }
+    else
+    {
+        ViewData["Title"] = "Edit Item";
+    }
+}
+
+<div class="container shadow p-5">
+    <div class="row pb-2">
+        @if (Model.ItemId == 0)
+        {
+            <h2>Add Item</h2>
+        }
+        else
+        {
+            <h2>Edit Item</h2>
+        }
+    </div>
+
+    <form id="employeeformid" method="post">
+        <div asp-validation-summary="All"></div>
+        @*<a asp-route-id="@Model.ItemCategoryId" hidden/>*@
+        <input asp-for="ItemId" hidden />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ItemName">Item Name</label> <span>*</span>
+                @if (Model.ItemId == 0)
+                {
+                    <input type="text" id="ItemName" class="form-control mb-3" asp-for="ItemName" placeholder="Enter Item Name">
+                }
+                else
+                {
+                    <input type="text" id="ItemName" class="form-control mb-3" asp-for="ItemName" placeholder="Enter Item Name" value="@Model.ItemName">
+                }
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ItemDescription">Item Description</label> <span>*</span>
+                @if (Model.ItemCategoryId == 0)
+                {
+                    <input type="text" id="ItemDescription" class="form-control mb-3" asp-for="ItemDescription" placeholder="Enter Item Description">
+                }
+                else
+                {
+                    <input type="text" id="ItemDescription" class="form-control mb-3" asp-for="ItemDescription" placeholder="Enter Item Description" value="@Model.ItemDescription">
+                }
+            
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="ItemDescription">Item Category Name</label> <span>*</span>
+                @if (Model.ItemId == 0)
+                {
+                    <select asp-for="ItemCategoryId" class="form-select" asp-items="Model.ItemCategorydropdown">
+                    <option disabled selected>--Select--</option>
+                    </select>
+                }
+                else{
+                    <select asp-for="ItemCategoryId" class="form-select" asp-items="Model.ItemCategorydropdown">
+                        <option disabled>--Select--</option>
+                    </select>
+                }
+                
+            </div>
+        </div>
+        <div class="form-row">
+            @if (Model.ItemId == 0)
+            {
+                <button asp-action="SaveItem" asp-controller="Item" title="Save" class="btn btn-lg btn-primary p-2 bi bi-pencil-square" name="Save">Save</button>
+            }
+            else
+            {
+                <button asp-action="UpdateItem" asp-controller="Item" title="Update" class="btn btn-lg btn-primary p-2 bi bi-pencil-square" name="Update">Update</button>
+            }
+            <a asp-controller="Item" asp-action="Index" class="btn btn-lg btn-warning p-2 btnback"><i class="bi bi-pencil-square"></i> Back </a>
+        </div>
+    </form>
+
+</div>

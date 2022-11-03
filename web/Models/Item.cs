@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
-namespace Service.Models
+namespace web.Models
 {
     public class Item
     {
-        [Key]
         public int ItemId { get; set; }
         public string ItemName { get; set; }
         public string ItemDescription { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public Int32 ItemCategoryId { get; set; }
-        //public ItemCatergory ItemCatergory { get; set; }
+        public string ItemCategoryName { get; set; }
+        public IEnumerable<SelectListItem> ItemCategorydropdown { get; set; } = new List<SelectListItem>();
     }
 }

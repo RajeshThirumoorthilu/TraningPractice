@@ -17,6 +17,7 @@ option.UseSqlServer(connectionString)
 );
 
 builder.Services.AddScoped<IItemCategoryRepository, ItemcategoryRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

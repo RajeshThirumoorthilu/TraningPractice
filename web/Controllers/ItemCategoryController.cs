@@ -20,7 +20,7 @@ namespace web.Controllers
         public IActionResult Index()
         {
             List<ItemCategory> ItemCatergory = new List<ItemCategory>();
-            var response = _clientCall.GetAsync(_baseUrl+ "GetItemCategory");
+            var response = _clientCall.GetAsync(_baseUrl+ "ItemCategory/GetItemCategory");
             ItemCatergory = JsonConvert.DeserializeObject<List<ItemCategory>>(response.Content.ReadAsStringAsync().Result);
             return View(ItemCatergory);
         }
@@ -33,14 +33,14 @@ namespace web.Controllers
         public IActionResult Edit(int id)
         {
             ItemCategory ItemCatergory = new ItemCategory();
-            var response = _clientCall.GetAsync(_baseUrl + "GetItemCategoryById?id="+id);
+            var response = _clientCall.GetAsync(_baseUrl + "ItemCategory/GetItemCategoryById?id=" + id);
             ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response.Content.ReadAsStringAsync().Result);
             return View("ItemCategoryAddEdit", ItemCatergory);
         }
         public IActionResult Delete(int id)
         {
             ItemCategory ItemCatergory = new ItemCategory();
-            var response = _clientCall.GetAsync(_baseUrl + "GetItemCategoryById?id=" + id);
+            var response = _clientCall.GetAsync(_baseUrl + "ItemCategory/GetItemCategoryById?id=" + id);
             ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response.Content.ReadAsStringAsync().Result);
             return View("ItemCategoryDelete", ItemCatergory);
         }
@@ -50,7 +50,7 @@ namespace web.Controllers
             StringContent requestContent;
             var modifiedAssetJSON = JsonConvert.SerializeObject(itemCategory);
             requestContent = new StringContent(modifiedAssetJSON, Encoding.UTF8, "application/json");
-            var response = _clientCall.PostAsync(_baseUrl+ "InsertItemCategory", requestContent);
+            var response = _clientCall.PostAsync(_baseUrl+ "ItemCategory/InsertItemCategory", requestContent);
             var ItemCategoryResponseModel = JsonConvert.DeserializeObject< ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
             if (ItemCategoryResponseModel != null)
             {
@@ -71,7 +71,7 @@ namespace web.Controllers
             StringContent requestContent;
             var modifiedAssetJSON = JsonConvert.SerializeObject(itemCategory);
             requestContent = new StringContent(modifiedAssetJSON, Encoding.UTF8, "application/json");
-            var response = _clientCall.PutAsync(_baseUrl+ "UpdateItemCategory", requestContent);
+            var response = _clientCall.PutAsync(_baseUrl+ "ItemCategory/UpdateItemCategory", requestContent);
             var ItemCategoryResponseModel = JsonConvert.DeserializeObject<ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
 
             if (ItemCategoryResponseModel != null)
@@ -91,7 +91,7 @@ namespace web.Controllers
 
         public IActionResult DeleteItemCategory(int id)
         {
-            var response = _clientCall.DeleteAsync(_baseUrl + "DeleteItemCategory?id="+id);
+            var response = _clientCall.DeleteAsync(_baseUrl + "ItemCategory/DeleteItemCategory?id=" + id);
             var ItemCategoryResponseModel = JsonConvert.DeserializeObject<ItemCategoryResponseModel>(response.Content.ReadAsStringAsync().Result);
 
             if (ItemCategoryResponseModel != null)

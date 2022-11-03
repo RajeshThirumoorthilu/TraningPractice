@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Item>
+
+@{
+    ViewData["Title"] = "List Item ";
+}
+
+<div class="container shadow p-5">
+
+    <h1 class="text-center mb-3">Item List</h1>
+
+    <div class="col mb-3">
+        <a asp-controller="Item" asp-action="Add" style="align-content:flex-end" class="btn btn-lg btn-primary"><i class="bi bi-file-plus-square"></i>Add Item </a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col" width="30%">Item Name</th>
+                <th scope="col" width="30%">Item Description</th>
+                <th scope="col" width="30%">Item Category Name</th>
+                <th width="40%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td width="30%">
+                        @item.ItemName
+                    </td>
+                    <td width="30%">
+                        @item.ItemDescription
+                    </td>
+                    <td width="30%">
+                        @item.ItemCategoryName
+                    </td>
+                    <td width="40%">
+                        <div class="w-60 btn-group">
+                            <a asp-controller="Item" asp-action="Edit" asp-route-id="@item.ItemId" class=" btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i>Edit</a>&nbsp;
+                            <a asp-controller="Item" asp-action="Delete" asp-route-id="@item.ItemId" class="btn btn-sm btn-danger"><i class="bi bi-pencil-square"></i>Delete</a>&nbsp;
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
