@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
 using Service.Common;
 using Service.IRepository;
 using Service.Models;
@@ -22,7 +23,7 @@ namespace Service.Repository
             try
             {
                 list = _context.Set<Item>().ToList();
-                _logger.Info($" ------- GetItem Api repository ends returns {list.Count} records ------- ");
+                _logger.Info($" ------- GetItem Api repository ends returns {list.Count} records and {JsonConvert.SerializeObject(list)}------- ");
                 return list;
             }
             catch (Exception Ex)
