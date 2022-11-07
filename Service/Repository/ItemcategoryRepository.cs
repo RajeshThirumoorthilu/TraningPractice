@@ -1,4 +1,5 @@
-﻿using Service.Common;
+﻿using NLog;
+using Service.Common;
 using Service.IRepository;
 using Service.Models;
 using System;
@@ -10,20 +11,25 @@ namespace Service.Repository
     public class ItemcategoryRepository : IItemCategoryRepository
     {
         private DatabaseContext _context;
+        private Logger _logger = LogManager.GetCurrentClassLogger();
         public ItemcategoryRepository(DatabaseContext context) 
         {
             _context = context;
         }
         public List<ItemCatergory> GetItemCatergory()
         {
+            _logger.Info(" ------- GetItemCatergory Api repository starts ------- ");
             var list = new List<ItemCatergory>(); 
             try
             {
-                list = _context.Set<ItemCatergory>().ToList(); 
+                list = _context.Set<ItemCatergory>().ToList();
+                _logger.Info($" ------- GetItemCatergory Api repository ends returns {list.Count} records ------- ");
                 return list;
             }
             catch(Exception Ex)
             {
+                _logger.Info($" ------- GetItemCatergory Api repository ends returns InnerException {Ex.InnerException} ------- ");
+                _logger.Info($" ------- GetItemCatergory Api repository ends returns Message {Ex.Message} ------- ");
                 return list;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NLog;
 using System.Net;
 using System.Text;
 using web.Common;
@@ -11,6 +12,7 @@ namespace web.Controllers
     {
         private readonly IConfiguration _config;
         private readonly string _baseUrl;
+        private Logger _logger = LogManager.GetCurrentClassLogger();
         HttpClientCall _clientCall = new HttpClientCall();
         public ItemCategoryController(IConfiguration config)
         {
@@ -19,9 +21,11 @@ namespace web.Controllers
         }
         public IActionResult Index()
         {
+            _logger.Info(" ------------ ItemCategoryController Index Method Starts ------------ ");
             List<ItemCategory> ItemCatergory = new List<ItemCategory>();
             var response = _clientCall.GetAsync(_baseUrl+ "ItemCategory/GetItemCategory");
             ItemCatergory = JsonConvert.DeserializeObject<List<ItemCategory>>(response.Content.ReadAsStringAsync().Result);
+            _logger.Info(" ------------ ItemCategoryController Index Method ends ------------ ");
             return View(ItemCatergory);
         }
 

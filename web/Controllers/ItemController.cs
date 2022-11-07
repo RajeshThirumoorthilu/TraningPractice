@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using NLog;
+using NLog.Web;
 using System.Net;
 using System.Text;
 using web.Common;
@@ -12,6 +14,7 @@ namespace web.Controllers
     {
         private readonly IConfiguration _config;
         private readonly string _baseUrl;
+        private Logger _logger = LogManager.GetCurrentClassLogger();    
         HttpClientCall _clientCall = new HttpClientCall();
         public ItemController(IConfiguration config)
         {
@@ -20,19 +23,32 @@ namespace web.Controllers
         }
         public IActionResult Index()
         {
+            
+            _logger.Info(" ------------ ItemController Index Method Starts ------------ ");
+            
             List<Item> Item = new List<Item>();
             var response = _clientCall.GetAsync(_baseUrl + "Item/GetItem");
             Item = JsonConvert.DeserializeObject<List<Item>>(response.Content.ReadAsStringAsync().Result);
-
-            foreach(var i in Item)
+            
+            if (Item != null)
             {
-                _clientCall = new HttpClientCall();
-                ItemCategory ItemCatergory = new ItemCategory();
-                var response1 = _clientCall.GetAsync(_baseUrl + "ItemCategory/GetItemCategoryById?id=" + i.ItemCategoryId);
-                ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response1.Content.ReadAsStringAsync().Result);
-                i.ItemCategoryName = ItemCatergory.ItemCategoryName;
-            }
+                foreach (var i in Item)
+                {
+                    _clientCall = new HttpClientCall();
+                    ItemCategory ItemCatergory = new ItemCategory();
 
+                    var response1 = _clientCall.GetAsync(_baseUrl + "ItemCategory/GetItemCategoryById?id=" + i.ItemCategoryId);
+                    ItemCatergory = JsonConvert.DeserializeObject<ItemCategory>(response1.Content.ReadAsStringAsync().Result);
+                    i.ItemCategoryName = ItemCatergory.ItemCategoryName;
+                }
+
+                _logger.Info(" ------------ ItemController Index Method ends ------------ ");
+
+                return View(Item);
+            }
+            
+            _logger.Info(" ------------ ItemController Index Method ends ------------ ");
+            
             return View(Item);
         }
         public IActionResult Add()

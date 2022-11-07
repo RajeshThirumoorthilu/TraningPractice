@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using Service.Common;
 using Service.IRepository;
 using Service.Models;
@@ -16,6 +17,8 @@ namespace Service.Controllers
 
         private readonly DatabaseContext _context;
 
+        private Logger _logger = LogManager.GetCurrentClassLogger();
+
         public ItemCategoryController(IItemCategoryRepository itemCategoryRepository)
         {
             _itemCategoryRepository = itemCategoryRepository;
@@ -31,11 +34,15 @@ namespace Service.Controllers
         {
             try
             {
+                _logger.Info(" ------- GetItemCategory Api hit starts ------- ");
+
                 var itemcategory = _itemCategoryRepository.GetItemCatergory();
                 if(itemcategory == null)
                 {
+                    _logger.Info($" ------- GetItemCategory Api hit ends return status code {HttpStatusCode.NotFound} ------- ");
                     return NotFound();  
                 }
+                _logger.Info($" ------- GetItemCategory Api hit ends return status code {HttpStatusCode.NotFound} ------- ");
                 return Ok(itemcategory);
             }
             catch(Exception Ex)
