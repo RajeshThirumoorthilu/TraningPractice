@@ -22,14 +22,15 @@ namespace Service.Repository
             var list = new List<ItemCatergory>(); 
             try
             {
+                throw new Exception();
                 list = _context.Set<ItemCatergory>().ToList();
                 _logger.Info($" ------- GetItemCatergory Api repository ends returns {list.Count} records ------- ");
                 return list;
             }
             catch(Exception Ex)
             {
-                _logger.Info($" ------- GetItemCatergory Api repository ends returns InnerException {Ex.InnerException} ------- ");
-                _logger.Info($" ------- GetItemCatergory Api repository ends returns Message {Ex.Message} ------- ");
+                _logger.Error($" ------- GetItemCatergory Api repository ends returns InnerException {Ex.InnerException} ------- ");
+                _logger.Error($" ------- GetItemCatergory Api repository ends returns Message {Ex.Message} ------- ");
                 return list;
             }
         }

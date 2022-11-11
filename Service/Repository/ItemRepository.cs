@@ -24,6 +24,8 @@ namespace Service.Repository
             {
                 list = _context.Set<Item>().ToList();
                 _logger.Info($" ------- GetItem Api repository ends returns {list.Count} records and {JsonConvert.SerializeObject(list)}------- ");
+                int aas = 0 / 10;
+                throw new InvalidOperationException("asdsdas");
                 return list;
             }
             catch (Exception Ex)
